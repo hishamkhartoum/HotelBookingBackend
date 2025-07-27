@@ -10,28 +10,28 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class UserDto {
-    @NotNull(message = "User id is required")
-    private UUID id;
-    @NotBlank(message = "User email is required")
-    private String email;
-    @NotBlank(message = "User first name is required")
+public class RegistrationRequest {
+    @NotBlank(message = "First name should not be blank")
     private String firstName;
-    @NotBlank(message = "User last name is required")
+
+    @NotBlank(message = "Last name should not be blank")
     private String lastName;
-    @NotBlank(message = "User phone number is required")
+
+    @NotBlank(message = "Email should not be blank")
+    private String email;
+
+    @NotBlank(message = "Password should not be blank")
+    private String password;
+
+    @NotBlank(message = "Phone number should not be blank")
     private String phoneNumber;
-    @NotNull(message = "User role is required")
+
+    @NotNull(message = "Role should not be null")
     private UserRole role;
-    @NotNull(message = "User active is required")
-    private boolean activate;
 }
