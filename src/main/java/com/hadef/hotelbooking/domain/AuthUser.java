@@ -1,4 +1,4 @@
-package com.hadef.hotelbooking.security;
+package com.hadef.hotelbooking.domain;
 
 import com.hadef.hotelbooking.domain.entity.User;
 import lombok.Builder;

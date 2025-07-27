@@ -12,7 +12,7 @@ import java.util.UUID;
 
 public interface BookingRepository extends JpaRepository<Booking, UUID> {
 
-    List<Booking> findByUserId(Long userId); // Fetch all bookings for a specific user
+    List<Booking> findByUserId(UUID userId); // Fetch all bookings for a specific user
 
 
     Optional<Booking> findByBookingReference(String bookingReference);
@@ -26,7 +26,7 @@ public interface BookingRepository extends JpaRepository<Booking, UUID> {
                   AND :checkOutDate >= b.checkInDate
                   AND b.bookingStatus IN ('BOOKED', 'CHECKED_IN')
             """)
-    boolean isRoomAvailable(@Param("roomId") Long roomId,
+    boolean isRoomAvailable(@Param("roomId") UUID roomId,
                             @Param("checkInDate") LocalDate checkInDate,
                             @Param("checkOutDate") LocalDate checkOutDate);
 }

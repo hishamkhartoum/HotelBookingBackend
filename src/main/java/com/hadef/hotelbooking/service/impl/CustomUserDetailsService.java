@@ -1,5 +1,6 @@
-package com.hadef.hotelbooking.security;
+package com.hadef.hotelbooking.service.impl;
 
+import com.hadef.hotelbooking.domain.AuthUser;
 import com.hadef.hotelbooking.domain.entity.User;
 import com.hadef.hotelbooking.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

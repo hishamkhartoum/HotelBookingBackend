@@ -1,6 +1,6 @@
 package com.hadef.hotelbooking.advice;
 
-import com.hadef.hotelbooking.domain.dto.Response;
+import com.hadef.hotelbooking.domain.Response;
 import com.hadef.hotelbooking.exception.InvalidBookingStateAndDateException;
 import com.hadef.hotelbooking.exception.InvalidCredentialException;
 import com.hadef.hotelbooking.exception.NameValueRequiredException;

@@ -1,7 +1,8 @@
-package com.hadef.hotelbooking.domain.dto;
+package com.hadef.hotelbooking.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.hadef.hotelbooking.domain.dto.*;
 import com.hadef.hotelbooking.domain.value.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

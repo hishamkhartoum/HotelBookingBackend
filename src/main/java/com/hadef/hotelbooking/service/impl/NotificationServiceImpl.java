@@ -1,28 +1,43 @@
 package com.hadef.hotelbooking.service.impl;
 
-import com.hadef.hotelbooking.domain.entity.Booking;
-import com.hadef.hotelbooking.service.BookingService;
+import com.hadef.hotelbooking.domain.entity.Notification;
+import com.hadef.hotelbooking.repository.NotificationRepository;
+import com.hadef.hotelbooking.service.NotificationService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
+@Service
+@RequiredArgsConstructor
+@Slf4j
+public class NotificationServiceImpl implements NotificationService {
 
-public class NotificationServiceImpl implements BookingService {
+    private final NotificationRepository notificationRepository;
+    private final JavaMailSender javaMailSender;
+
     @Override
-    public List<Booking> getAllBookings() {
-        return List.of();
+    @Async
+    public void sendEmail(Notification notification) {
+        log.info("Sending mail email...");
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+        simpleMailMessage.setTo(notification.getRecipient());
+        simpleMailMessage.setSubject(notification.getSubject());
+        simpleMailMessage.setText(notification.getBody());
+
+        javaMailSender.send(simpleMailMessage);
+        notificationRepository.save(notification);
     }
 
     @Override
-    public Booking createBooking(Booking booking) {
-        return null;
+    public void sendSMS() {
+
     }
 
     @Override
-    public Booking findBookingByReferenceNo(String bookingReference) {
-        return null;
-    }
+    public void sendWhatsApp() {
 
-    @Override
-    public Booking updateBooking(Booking booking) {
-        return null;
     }
 }

@@ -1,7 +1,7 @@
 package com.hadef.hotelbooking.exception;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hadef.hotelbooking.domain.dto.Response;
+import com.hadef.hotelbooking.domain.Response;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
