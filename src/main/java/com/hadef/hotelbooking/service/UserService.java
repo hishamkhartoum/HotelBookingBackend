@@ -1,5 +1,6 @@
 package com.hadef.hotelbooking.service;
 
+import com.hadef.hotelbooking.domain.entity.Booking;
 import com.hadef.hotelbooking.domain.entity.User;
 
 import java.util.List;
@@ -10,5 +11,5 @@ public interface UserService {
     User getCurrentLoggedInUser();
     User updateOwnAccount(User user);
     void deleteOwnAccount();
-    // getMyBookingHistory();
+    List<Booking> getMyBookingHistory();
 }
