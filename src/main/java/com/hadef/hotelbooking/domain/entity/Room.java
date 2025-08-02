@@ -8,9 +8,12 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -20,6 +23,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @Table(name = "rooms")
+@EntityListeners(AuditingEntityListener.class)
 public class Room {
 
     @Id
@@ -34,6 +38,9 @@ public class Room {
     private BigDecimal pricePerNight;
     @Column(nullable = false)
     private Integer capacity;
+    @Column(nullable = false)
+    @OneToMany(mappedBy = "room")
+    private List<Booking> booking;
     @Column(nullable = false,columnDefinition = "text")
     private String description;
     @Column(nullable = false)
@@ -46,4 +53,16 @@ public class Room {
     private String createdBy;
     @LastModifiedBy
     private String updatedBy;
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Room room = (Room) o;
+        return Objects.equals(id, room.id) && Objects.equals(roomNumber, room.roomNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, roomNumber);
+    }
 }

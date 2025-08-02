@@ -31,7 +31,9 @@ public class Response {
     private List<UserDto> users;
 
     private BookingDto booking;
+    private ViewBookingDto viewBooking;
     private List<BookingDto> bookings;
+    private List<ViewBookingDto> viewBookings;
 
     private RoomDto room;
     private List<RoomDto> rooms;

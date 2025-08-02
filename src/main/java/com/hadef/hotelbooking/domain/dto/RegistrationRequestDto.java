@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class RegistrationRequest {
+public class RegistrationRequestDto {
     @NotBlank(message = "First name should not be blank")
     private String firstName;
 

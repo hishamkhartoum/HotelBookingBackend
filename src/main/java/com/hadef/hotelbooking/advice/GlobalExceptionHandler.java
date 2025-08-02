@@ -1,10 +1,7 @@
 package com.hadef.hotelbooking.advice;
 
 import com.hadef.hotelbooking.domain.Response;
-import com.hadef.hotelbooking.exception.InvalidBookingStateAndDateException;
-import com.hadef.hotelbooking.exception.InvalidCredentialException;
-import com.hadef.hotelbooking.exception.NameValueRequiredException;
-import com.hadef.hotelbooking.exception.NotFoundException;
+import com.hadef.hotelbooking.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -56,5 +53,14 @@ public class GlobalExceptionHandler {
                 .message(ex.getMessage())
                 .build();
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ImageAlreadyExistException.class)
+    public ResponseEntity<Response> handleImageAlreadyExistException(ImageAlreadyExistException ex){
+        Response response = Response.builder()
+                .status(HttpStatus.CONFLICT.value())
+                .message(ex.getMessage())
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
     }
 }

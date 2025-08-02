@@ -1,12 +1,14 @@
 package com.hadef.hotelbooking.repository;
 
 import com.hadef.hotelbooking.domain.entity.Room;
+import com.hadef.hotelbooking.domain.value.BookingStatus;
 import com.hadef.hotelbooking.domain.value.RoomType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,8 +26,8 @@ public interface RoomRepository extends JpaRepository<Room, UUID> {
                 AND (:roomType IS NULL OR r.type = :roomType)
             """)
     List<Room> findAvailableRooms(
-            @Param("checkInDate") LocalDate checkInDate,
-            @Param("checkOutDate") LocalDate checkOutDate,
+            @Param("checkInDate") LocalDateTime checkInDate,
+            @Param("checkOutDate") LocalDateTime checkOutDate,
             @Param("roomType") RoomType roomType
     );
 
@@ -39,4 +41,12 @@ public interface RoomRepository extends JpaRepository<Room, UUID> {
                    OR LOWER(r.description) LIKE LOWER(CONCAT('%', :searchParam, '%'))
             """)
     List<Room> searchRooms(@Param("searchParam") String searchParam);
+
+    @Query("""
+    SELECT CASE WHEN COUNT(r) > 0 THEN true ELSE false END
+    FROM Room r
+    JOIN r.booking b
+    WHERE r.id = :id AND b.bookingStatus IN :statuses
+    """)
+    boolean existsByIdAndBookingStatusIn(@Param("id") UUID id, @Param("statuses") List<BookingStatus> statuses);
 }

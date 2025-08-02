@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class LoginRequest {
+public class LoginRequestDto {
 
     @Email(message = "Please write a valid email")
     @NotBlank(message = "Email is required")
