@@ -6,7 +6,6 @@ import com.hadef.hotelbooking.exception.ImageAlreadyExistException;
 import com.hadef.hotelbooking.exception.InvalidBookingStateAndDateException;
 import com.hadef.hotelbooking.exception.NotFoundException;
 import com.hadef.hotelbooking.repository.RoomRepository;
-import com.hadef.hotelbooking.service.BookingService;
 import com.hadef.hotelbooking.service.FileService;
 import com.hadef.hotelbooking.service.RoomService;
 import jakarta.persistence.EntityNotFoundException;
