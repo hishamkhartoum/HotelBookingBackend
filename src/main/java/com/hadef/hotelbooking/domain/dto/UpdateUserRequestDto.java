@@ -1,6 +1,5 @@
 package com.hadef.hotelbooking.domain.dto;
 
-import com.hadef.hotelbooking.domain.value.UserRole;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -9,15 +8,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class UpdateUserRequestDto {
-    @NotNull(message = "User id is required")
-    private UUID id;
+//    @NotNull(message = "User id is required")
+//    private UUID id;
     @NotBlank(message = "User email is required")
     private String email;
     @NotBlank(message = "Password should not be blank")
@@ -32,8 +29,8 @@ public class UpdateUserRequestDto {
     private String lastName;
     @NotBlank(message = "User phone number is required")
     private String phoneNumber;
-    @NotNull(message = "User role is required")
-    private UserRole role;
+//    @NotNull(message = "User role is required")
+//    private UserRole role;
     @NotNull(message = "User active is required")
     private boolean activate;
 }

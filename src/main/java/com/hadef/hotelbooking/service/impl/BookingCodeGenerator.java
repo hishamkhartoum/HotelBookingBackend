@@ -1,4 +1,4 @@
-package com.hadef.hotelbooking.service;
+package com.hadef.hotelbooking.service.impl;
 
 import com.hadef.hotelbooking.domain.entity.BookingReference;
 import com.hadef.hotelbooking.repository.BookingReferenceRepository;
@@ -18,7 +18,7 @@ public class BookingCodeGenerator {
 
         // keep generating until a unique code is found
         do{
-            bookingReference = generateRandomAlphaNumericCode(10); //genrate code of length 10
+            bookingReference = generateRandomAlphaNumericCode(); //genrate code of length 10
 
         }while (isBookingReferenceExist(bookingReference)); //check if the code already exist. if it does't, exit
 
@@ -26,14 +26,14 @@ public class BookingCodeGenerator {
 
         return bookingReference;
     }
-    private String generateRandomAlphaNumericCode(int length){
+    private String generateRandomAlphaNumericCode(){
 
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789";
         Random random = new Random();
 
-        StringBuilder stringBuilder = new StringBuilder(length);
+        StringBuilder stringBuilder = new StringBuilder(10);
 
-        for (int i = 0; i < length; i++){
+        for (int i = 0; i < 10; i++){
             int index = random.nextInt(characters.length());
             stringBuilder.append(characters.charAt(index));
         }

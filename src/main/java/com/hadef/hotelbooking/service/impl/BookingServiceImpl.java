@@ -9,7 +9,6 @@ import com.hadef.hotelbooking.domain.value.PaymentStatus;
 import com.hadef.hotelbooking.exception.InvalidBookingStateAndDateException;
 import com.hadef.hotelbooking.exception.NotFoundException;
 import com.hadef.hotelbooking.repository.BookingRepository;
-import com.hadef.hotelbooking.repository.RoomRepository;
 import com.hadef.hotelbooking.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +27,6 @@ import java.util.UUID;
 public class BookingServiceImpl implements BookingService {
     private final BookingRepository bookingRepository;
     private final UserService userService;
-    private final RoomService roomService;
     private final BookingCodeGenerator bookingCodeGenerator;
     private final NotificationService notificationService;
 
@@ -38,9 +36,8 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public Booking createBooking(Booking booking) {
+    public Booking createBooking(Booking booking, Room room) {
         User currentLoggedInUser = userService.getCurrentLoggedInUser();
-        Room room = roomService.getRoomById(booking.getId());
         if(booking.getCheckInDate().isBefore(LocalDateTime.now())) {
             throw new InvalidBookingStateAndDateException("Check In Date is invalid");
         }
@@ -52,11 +49,12 @@ public class BookingServiceImpl implements BookingService {
         }
         boolean roomAvailable = isRoomAvailable(room.getId(), booking.getCheckInDate(), booking.getCheckOutDate());
         if(!roomAvailable) {
-            throw new InvalidBookingStateAndDateException("Room is not available with id: "+booking.getId());
+            throw new InvalidBookingStateAndDateException("Room is not available with id: "+room.getId());
         }
         BigDecimal totalPrice = calculateTotalPrice(room,booking);
         String bookingReference = bookingCodeGenerator.generateBookingReference();
         booking.setRoom(room);
+        booking.setUser(currentLoggedInUser);
         booking.setTotalPrice(totalPrice);
         booking.setBookingReference(bookingReference);
         booking.setBookingStatus(BookingStatus.BOOKED);
@@ -88,14 +86,23 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public Booking updateBooking(Booking booking) {
+    public Booking updateBooking(Booking booking,Room room) {
         if(booking.getId() == null){
-            throw new NotFoundException("Booking id is required");
+            throw new NotFoundException("Booking id is null");
         }
         Booking existingBooking = bookingRepository.findById(booking.getId()).orElseThrow(
                 () -> new NotFoundException(
                         "Booking not found with id: " + booking.getId()
                 ));
+        if(booking.getCheckInDate() != null){
+            existingBooking.setCheckInDate(booking.getCheckInDate());
+        }
+        if(booking.getCheckOutDate() != null){
+            existingBooking.setCheckOutDate(booking.getCheckOutDate());
+        }
+        if(booking.getTotalPrice() != null){
+            existingBooking.setTotalPrice(booking.getTotalPrice());
+        }
         if(booking.getBookingStatus() != null){
             existingBooking.setBookingStatus(booking.getBookingStatus());
         }
@@ -103,12 +110,18 @@ public class BookingServiceImpl implements BookingService {
             existingBooking.setPaymentStatus(booking.getPaymentStatus());
         }
 
+        existingBooking.setRoom(room);
         return bookingRepository.save(existingBooking);
     }
 
     @Override
     public boolean isRoomAvailable(UUID id, LocalDateTime checkInDate, LocalDateTime checkOutDate) {
         return bookingRepository.isRoomAvailable(id,checkInDate,checkOutDate);
+    }
+
+    @Override
+    public void updateBookingPaymentStatus(Booking booking) {
+        bookingRepository.save(booking);
     }
 
     private BigDecimal calculateTotalPrice(Room room, Booking booking) {

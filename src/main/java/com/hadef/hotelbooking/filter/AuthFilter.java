@@ -39,11 +39,11 @@ public class AuthFilter extends OncePerRequestFilter {
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
-            try{
-                filterChain.doFilter(request, response);
-            }catch (Exception e){
-                log.error(e.getMessage());
-            }
+        }
+        try{
+            filterChain.doFilter(request, response);
+        }catch (Exception e){
+            log.error(e.getMessage());
         }
     }
 

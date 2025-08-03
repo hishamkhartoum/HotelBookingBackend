@@ -2,9 +2,8 @@ package com.hadef.hotelbooking.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.hadef.hotelbooking.domain.value.UserRole;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,6 +23,7 @@ public class RegistrationRequestDto {
     @NotBlank(message = "Last name should not be blank")
     private String lastName;
 
+    @Email(message = "Please enter a valid email for registration")
     @NotBlank(message = "Email should not be blank")
     private String email;
 
@@ -37,6 +37,6 @@ public class RegistrationRequestDto {
     @NotBlank(message = "Phone number should not be blank")
     private String phoneNumber;
 
-    @NotNull(message = "Role should not be null")
-    private UserRole role;
+//    @NotNull(message = "Role should not be null")
+//    private UserRole role;
 }

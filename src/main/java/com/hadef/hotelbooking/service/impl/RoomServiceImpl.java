@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Files;
@@ -99,6 +100,11 @@ public class RoomServiceImpl implements RoomService {
                         "Room with id "+room.getId()+" has been booked!");
             }
 */
+            try {
+                fileService.deleteImage(path,room.getImageUrl());
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
             roomRepository.delete(room);
         });
     }
@@ -108,9 +114,6 @@ public class RoomServiceImpl implements RoomService {
             LocalDateTime checkInDate, LocalDateTime checkOutDate, RoomType roomType) {
         if(checkInDate==null || checkOutDate==null){
             throw new InvalidBookingStateAndDateException("checkInDate or checkOutDate is null");
-        }
-        if(roomType==null){
-            throw new InvalidBookingStateAndDateException("roomType is null");
         }
         if (checkInDate.isBefore(LocalDateTime.now())){
             throw new InvalidBookingStateAndDateException("check in date cannot be before today ");

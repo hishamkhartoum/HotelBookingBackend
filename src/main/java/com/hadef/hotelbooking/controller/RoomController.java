@@ -1,5 +1,7 @@
 package com.hadef.hotelbooking.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hadef.hotelbooking.domain.Response;
 import com.hadef.hotelbooking.domain.dto.CreateRoomDto;
 import com.hadef.hotelbooking.domain.dto.RoomDto;
@@ -30,11 +32,10 @@ public class RoomController {
 
     @PostMapping("/add")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Response> addRoom(@RequestPart CreateRoomDto createRoomDto,
+    public ResponseEntity<Response> addRoom(@RequestPart String createRoomDto,
                                             @RequestPart MultipartFile image) throws IOException {
-        Room addedRoom = roomService.addRoom(
-                roomMapper.fromCreateRoomDtoToEntity(createRoomDto), image
-        );
+        Room addedRoom = roomService.addRoom(roomMapper.fromCreateRoomDtoToEntity(
+                        convertToCreateRoomDto(createRoomDto)), image);
         RoomDto dto = roomMapper.toDto(addedRoom);
         Response response = Response.builder()
                 .room(dto)
@@ -46,9 +47,10 @@ public class RoomController {
 
     @PutMapping("/update")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Response> updateRoom(@RequestPart UpdateRoomDto updateRoomDto,@RequestPart MultipartFile image) throws IOException {
+    public ResponseEntity<Response> updateRoom(@RequestPart String updateRoomDto,@RequestPart MultipartFile image) throws IOException {
         Room updatedRoom = roomService.updateRoom(
-                roomMapper.fromUpdateRoomDtoToEntity(updateRoomDto), image
+                roomMapper.fromUpdateRoomDtoToEntity(
+                        convertToUpdateRoomDto(updateRoomDto)), image
         );
         RoomDto dto = roomMapper.toDto(updatedRoom);
         Response response = Response.builder()
@@ -125,5 +127,13 @@ public class RoomController {
                 .build();
         return ResponseEntity.ok(response);
     }
+    private CreateRoomDto convertToCreateRoomDto(String createRoomDto) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(createRoomDto, CreateRoomDto.class);
+    }
 
+    private UpdateRoomDto convertToUpdateRoomDto(String updateRoomDto) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(updateRoomDto, UpdateRoomDto.class);
+    }
 }
