@@ -48,7 +48,7 @@ public class AuthenticationController {
                 .message("User logged in successfully!")
                 .role(userDto.getRole())
                 .token(jwtUtils.generateToken(userDto.getEmail()))
-                .isActive(userDto.isActivate())
+                .isActive(userDto.isActive())
                 .expirationTime("6 month")
                 .build();
         return ResponseEntity.ok(response);

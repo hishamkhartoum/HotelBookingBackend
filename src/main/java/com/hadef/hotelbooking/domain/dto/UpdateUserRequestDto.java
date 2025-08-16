@@ -32,5 +32,5 @@ public class UpdateUserRequestDto {
 //    @NotNull(message = "User role is required")
 //    private UserRole role;
     @NotNull(message = "User active is required")
-    private boolean activate;
+    private boolean active;
 }
