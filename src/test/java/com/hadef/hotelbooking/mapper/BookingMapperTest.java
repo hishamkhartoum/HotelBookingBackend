@@ -1,6 +1,6 @@
 package com.hadef.hotelbooking.mapper;
 
-import com.hadef.hotelbooking.domain.dto.BookingDto;
+import com.hadef.hotelbooking.domain.dto.*;
 import com.hadef.hotelbooking.domain.entity.Booking;
 import com.hadef.hotelbooking.domain.entity.Room;
 import com.hadef.hotelbooking.domain.entity.User;
@@ -86,13 +86,88 @@ class BookingMapperTest {
 
     @Test
     void toViewBookingDto() {
+        User user = User.builder()
+                .id(UUID.randomUUID())
+                .email("hishamkhartoum@example.com")
+                .firstName("Hisham")
+                .lastName("Khartoum")
+                .phoneNumber("123456789")
+                .role(UserRole.CUSTOMER)
+                .active(true)
+                .build();
+
+        Room room = Room.builder()
+                .id(UUID.randomUUID())
+                .roomNumber(101)
+                .type(RoomType.SINGLE)
+                .pricePerNight(BigDecimal.valueOf(50.0))
+                .capacity(1)
+                .description("Nice single room")
+                .imageUrl("http://hadef.com/room.jpg")
+                .build();
+
+        Booking booking = Booking.builder()
+                .id(UUID.randomUUID())
+                .user(user)
+                .room(room)
+                .checkInDate(LocalDateTime.now())
+                .checkOutDate(LocalDateTime.now().plusDays(2))
+                .paymentStatus(PaymentStatus.PENDING)
+                .totalPrice(BigDecimal.valueOf(100.00))
+                .bookingStatus(BookingStatus.BOOKED)
+                .bookingReference("ABC123")
+                .build();
+
+        ViewBookingDto viewBookingDto = mapper.toViewBookingDto(booking);
+
+        // booking basic fields
+        assertEquals(booking.getId(), viewBookingDto.getId());
+        assertEquals(booking.getPaymentStatus(), viewBookingDto.getPaymentStatus());
+        assertEquals(booking.getBookingStatus(), viewBookingDto.getBookingStatus());
+        assertEquals(booking.getTotalPrice(), viewBookingDto.getTotalPrice());
+        assertEquals(booking.getBookingReference(), viewBookingDto.getBookingReference());
+        assertEquals(booking.getCheckInDate(), viewBookingDto.getCheckInDate());
+        assertEquals(booking.getCheckOutDate(), viewBookingDto.getCheckOutDate());
     }
 
     @Test
     void fromCreateBookingDtoToEntity() {
+
+        CreateBookingDto bookingDto = CreateBookingDto.builder()
+                .checkInDate(LocalDateTime.now())
+                .checkOutDate(LocalDateTime.now().plusDays(2))
+                .roomId(UUID.randomUUID())
+                .build();
+
+        Booking booking = mapper.fromCreateBookingDtoToEntity(bookingDto);
+
+        // booking basic fields
+        assertEquals(booking.getCheckInDate(), bookingDto.getCheckInDate());
+        assertEquals(booking.getCheckOutDate(), bookingDto.getCheckOutDate());
+        assertEquals(booking.getRoom().getId(), bookingDto.getRoomId());
     }
 
     @Test
     void fromUpdateBookingDtoToEntity() {
+        UpdateBookingDto bookingDto = UpdateBookingDto.builder()
+                .bookingReference(UUID.randomUUID().toString())
+                .bookingStatus(BookingStatus.BOOKED)
+                .totalPrice(BigDecimal.valueOf(100.00))
+                .paymentStatus(PaymentStatus.PENDING)
+                .checkInDate(LocalDateTime.now())
+                .checkOutDate(LocalDateTime.now().plusDays(2))
+                .roomId(UUID.randomUUID())
+                .build();
+
+        Booking booking = mapper.fromUpdateBookingDtoToEntity(bookingDto);
+
+        // booking basic fields
+        assertEquals(booking.getBookingReference(), bookingDto.getBookingReference());
+        assertEquals(booking.getBookingStatus(), bookingDto.getBookingStatus());
+        assertEquals(booking.getTotalPrice(), bookingDto.getTotalPrice());
+        assertEquals(booking.getPaymentStatus(), bookingDto.getPaymentStatus());
+        assertEquals(booking.getCheckInDate(), bookingDto.getCheckInDate());
+        assertEquals(booking.getCheckOutDate(), bookingDto.getCheckOutDate());
+        assertEquals(booking.getRoom().getId(), bookingDto.getRoomId());
     }
 }

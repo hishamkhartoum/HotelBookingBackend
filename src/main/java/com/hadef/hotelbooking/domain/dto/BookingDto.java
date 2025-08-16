@@ -2,21 +2,14 @@ package com.hadef.hotelbooking.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.hadef.hotelbooking.domain.entity.Room;
-import com.hadef.hotelbooking.domain.entity.User;
 import com.hadef.hotelbooking.domain.value.BookingStatus;
 import com.hadef.hotelbooking.domain.value.PaymentStatus;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
