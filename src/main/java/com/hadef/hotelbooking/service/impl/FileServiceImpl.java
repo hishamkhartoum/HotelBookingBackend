@@ -2,6 +2,7 @@ package com.hadef.hotelbooking.service.impl;
 
 import com.hadef.hotelbooking.service.FileService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,6 +15,7 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class FileServiceImpl implements FileService {
     @Override
     public String uploadImage(String path, MultipartFile file) throws IOException {
@@ -29,7 +31,8 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public InputStream getResourceImage(String path, String fileName) throws FileNotFoundException {
+    public InputStream getResourceImage(String fileName, String path) throws FileNotFoundException {
+        log.info("Reading file {} from path {}", fileName, path);
         String filePath = path + File.separator + fileName;
         return new FileInputStream(filePath);
     }

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -98,8 +98,8 @@ public class RoomController {
 
     @GetMapping("/available")
     public ResponseEntity<Response> getAvailableRooms(
-            @RequestParam LocalDateTime checkInDate,
-            @RequestParam LocalDateTime checkOutDate,
+            @RequestParam LocalDate checkInDate,
+            @RequestParam LocalDate checkOutDate,
             @RequestParam(required = false) RoomType roomType){
         List<RoomDto> roomDtoList = roomService.getAvailableRooms(checkInDate, checkOutDate, roomType).stream()
                 .map(roomMapper::toDto).toList();

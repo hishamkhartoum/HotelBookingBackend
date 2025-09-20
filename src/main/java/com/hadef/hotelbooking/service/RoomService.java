@@ -5,7 +5,7 @@ import com.hadef.hotelbooking.domain.value.RoomType;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,8 +15,8 @@ public interface RoomService {
     List<Room> getAllRooms();
     Room getRoomById(UUID id);
     void deleteRoom(UUID id);
-    List<Room> getAvailableRooms(LocalDateTime checkInDate,
-                                 LocalDateTime checkOutDate,
+    List<Room> getAvailableRooms(LocalDate checkInDate,
+                                 LocalDate checkOutDate,
                                  RoomType roomType);
     List<RoomType> getAllRoomTypes();
     List<Room> searchRoom(String input);

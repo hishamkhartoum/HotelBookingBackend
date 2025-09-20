@@ -16,7 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.UUID;
@@ -38,7 +38,7 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Booking createBooking(Booking booking, Room room) {
         User currentLoggedInUser = userService.getCurrentLoggedInUser();
-        if(booking.getCheckInDate().isBefore(LocalDateTime.now())) {
+        if(booking.getCheckInDate().isBefore(LocalDate.now())) {
             throw new InvalidBookingStateAndDateException("Check In Date is invalid");
         }
         if(booking.getCheckOutDate().isBefore(booking.getCheckInDate())) {
@@ -115,7 +115,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public boolean isRoomAvailable(UUID id, LocalDateTime checkInDate, LocalDateTime checkOutDate) {
+    public boolean isRoomAvailable(UUID id, LocalDate checkInDate, LocalDate checkOutDate) {
         return bookingRepository.isRoomAvailable(id,checkInDate,checkOutDate);
     }
 

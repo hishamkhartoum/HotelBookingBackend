@@ -74,7 +74,7 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping
+    @GetMapping("/bookings")
     public ResponseEntity<Response> getMyBookingHistory(){
         List<BookingDto> bookingDtoList = userService.getMyBookingHistory().stream().map(bookingMapper::toDto)
                 .toList();

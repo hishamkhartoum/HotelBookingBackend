@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -27,6 +27,6 @@ public interface BookingRepository extends JpaRepository<Booking, UUID> {
                   AND b.bookingStatus IN ('BOOKED', 'CHECKED_IN')
             """)
     boolean isRoomAvailable(@Param("roomId") UUID roomId,
-                            @Param("checkInDate") LocalDateTime checkInDate,
-                            @Param("checkOutDate") LocalDateTime checkOutDate);
+                            @Param("checkInDate") LocalDate checkInDate,
+                            @Param("checkOutDate") LocalDate checkOutDate);
 }

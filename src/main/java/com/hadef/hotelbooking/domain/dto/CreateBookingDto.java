@@ -8,7 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Data
@@ -22,8 +22,8 @@ public class CreateBookingDto {
     private UUID roomId;
 
     @NotNull(message = "Check-in date is required")
-    private LocalDateTime checkInDate;
+    private LocalDate checkInDate;
 
     @NotNull(message = "Check-out date is required")
-    private LocalDateTime checkOutDate;
+    private LocalDate checkOutDate;
 }

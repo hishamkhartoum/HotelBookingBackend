@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -111,11 +111,11 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public List<Room> getAvailableRooms(
-            LocalDateTime checkInDate, LocalDateTime checkOutDate, RoomType roomType) {
+            LocalDate checkInDate, LocalDate checkOutDate, RoomType roomType) {
         if(checkInDate==null || checkOutDate==null){
             throw new InvalidBookingStateAndDateException("checkInDate or checkOutDate is null");
         }
-        if (checkInDate.isBefore(LocalDateTime.now())){
+        if (checkInDate.isBefore(LocalDate.now())){
             throw new InvalidBookingStateAndDateException("check in date cannot be before today ");
         }
 

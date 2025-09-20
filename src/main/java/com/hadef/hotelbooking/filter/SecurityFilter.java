@@ -40,7 +40,7 @@ public class SecurityFilter {
                 ).authorizeHttpRequests(request->
                         request.requestMatchers(
                                 "/api/v1/auth/**","/api/v1/bookings/**",
-                                "/api/v1/rooms/**"
+                                "/api/v1/rooms/**","/api/v1/files/**"
                         ).permitAll().anyRequest().authenticated()
                 ).sessionManagement(manager->
                         manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
